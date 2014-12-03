@@ -52,7 +52,8 @@ public enum Planet {
     }
 
     /**
-      * Returns the circle representation of the planet
+      * Returns the circle representation of the planet. Designed so that the
+      * Circle representation is effectively final.
       *
       * @return circle for the given planet
       */
@@ -66,7 +67,8 @@ public enum Planet {
 
 
     /**
-      * Returns the Path that the planet uses to orbit the Sun
+      * Returns the Path that the planet uses to orbit the Sun. Designed so that
+      * the orbit Path is effectively final.
       *
       * @return path for the given planet
       */
@@ -96,29 +98,17 @@ public enum Planet {
 
     /**
       * Animates the Planet's orbit around the sun
-      * @param pl    planet type being animated
-      * @param c    circle being animated
-      * @param p    path being used for animation
+      *
       * @return PathTransition animation for the circle passed in
       */
     PathTransition animateOrbitalPath() {
         PathTransition planetPathT = new PathTransition();
-        planetPathT.setNode(circle);
-        planetPathT.setDuration(Duration.seconds(getPeriod()));
-        planetPathT.setPath(orbitalPath);
+        planetPathT.setNode(getCircle());
+        planetPathT.setDuration(Duration.seconds(period));
+        planetPathT.setPath(getOrbitalPath());
         planetPathT.setCycleCount(Timeline.INDEFINITE);
         planetPathT.setInterpolator(Interpolator.LINEAR);
         planetPathT.play();
         return planetPathT;
     }
-
-    /**
-      * Returns the value of the period instance variable for the planet
-      *
-      * @return period of given planet
-      */
-    double getPeriod() {
-        return period;
-    }
-
 }

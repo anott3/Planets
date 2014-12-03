@@ -1,13 +1,13 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.Group;
 import javafx.stage.Stage;
-import javafx.scene.shape.Path;
 import java.util.ArrayDeque;
 import java.util.stream.Collectors;
-
+import java.util.Collection;
+import java.util.EnumSet;
 /**
   * Class representation of Planetarium that shows planets in orbit
   *
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class Planetarium extends Application {
 
     private static final int SCENE_WIDTH = 790;
-    private static final int SCENE_HEIGHT = 790;
+    private static final int SCENE_HEIGHT = SCENE_WIDTH;
     private ArrayDeque<Planet> planets = new ArrayDeque<Planet>();
 
     /**
@@ -26,10 +26,7 @@ public class Planetarium extends Application {
       * @param  stage   Stage paramter that Planetarium takes in
       */
     public void start(Stage stage) {
-        addPlanet(Planet.MERCURY);
-        addPlanet(Planet.VENUS);
-        addPlanet(Planet.EARTH);
-        addPlanet(Planet.MARS);
+        addAllPlanets(EnumSet.allOf(Planet.class));
 
         Group root = new Group();
 
@@ -37,22 +34,17 @@ public class Planetarium extends Application {
             (c) -> c.getOrbitalPath()).collect(Collectors.toList()));
         root.getChildren().addAll(planets.stream().map(
             (c) -> c.getCircle()).collect(Collectors.toList()));
-        Path mercuryPath = Planet.MERCURY.getOrbitalPath();
-        Path venusPath = Planet.VENUS.getOrbitalPath();
-        Path earthPath = Planet.EARTH.getOrbitalPath();
-        Path marsPath = Planet.MARS.getOrbitalPath();
 
         planets.stream().map((c) -> (
             c.animateOrbitalPath())).collect(Collectors.toList());
 
-        root.getChildren().add(getSun());
+        root.getChildren(e).add(getSun());
 
         Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT, Color.BLACK);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
     }
-
 
     /**
       * Circle representation of the Sun
@@ -65,13 +57,15 @@ public class Planetarium extends Application {
     }
 
     /**
-      * Adds a planet to the Planetarium class to be stored in an ArrayDeque
+      * Adds all the planet from the Planet enum to the Planetarium class to be
+      * stored in an ArrayDeque
       *
-      * @param p  planet to be added
-      * @return true if the planet was added
+      * @param <P>  generic Collection that extends a Collection of Planet
+      * @param p  planets to be added
+      * @return true if the planets were added to the ArrayDeque
       */
-    public boolean addPlanet(Planet p) {
-        return planets.add(p);
+    public <P extends Collection<Planet>> boolean addAllPlanets(P p) {
+        return planets.addAll(p);
     }
 
 }
