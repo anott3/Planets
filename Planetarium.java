@@ -60,8 +60,9 @@ public class Planetarium extends Application {
         //     getSun().getCenterY() - 20, 5, Color.BLACK));
         // root.getChildren().add(new Circle(getSun().getCenterX() + 30,
         //     getSun().getCenterY() - 20, 5, Color.BLACK));
-        // root.getChildren().add(new Arc(getSun().getCenterX(),
-        //     getSun().getCenterY() + 10, 30, 30, 180, 180));
+        // root.getChildren().add(new javafx.scene.shape.Arc(
+        //     getSun().getCenterX(), getSun().getCenterY() + 10,
+        //     30, 30, 180, 180));
 
         Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT, Color.BLACK);
         stage.setScene(scene);
