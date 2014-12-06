@@ -49,33 +49,9 @@ public enum Planet {
         this.period = propPeriod * earthPeriod;
         this.radius = propRadius * earthRadius;
         this.distance = propDistance * earthDistance;
-    }
+        this.circle = new Circle(Planetarium.getSun().getCenterX(),
+            Planetarium.getSun().getCenterY() - distance, radius, color);
 
-    /**
-      * Returns the circle representation of the planet. Designed so that the
-      * Circle representation is effectively final.
-      *
-      * @return circle for the given planet
-      */
-    Circle getCircle() {
-        if (circle == null) {
-            circle = new Circle(Planetarium.getSun().getCenterX(),
-                Planetarium.getSun().getCenterY() - distance, radius, color);
-        }
-        return circle;
-    }
-
-
-    /**
-      * Returns the Path that the planet uses to orbit the Sun. Designed so that
-      * the orbit Path is effectively final.
-      *
-      * @return path for the given planet
-      */
-    Path getOrbitalPath() {
-        if (orbitalPath != null) {
-            return orbitalPath;
-        }
         Path orbitingPath = new Path();
         orbitingPath.setStroke(Color.WHITE);
         ArcTo planetArcToFirst = new ArcTo();
@@ -93,6 +69,26 @@ public enum Planet {
         orbitingPath.getElements().addAll(new MoveTo(getCircle().getCenterX(),
             getCircle().getCenterY()), planetArcToFirst, planetArcToSecond);
         orbitalPath = orbitingPath;
+    }
+
+    /**
+      * Returns the circle representation of the planet. The circle is defined
+      * in the constructor
+      *
+      * @return circle for the given planet
+      */
+    Circle getCircle() {
+        return circle;
+    }
+
+
+    /**
+      * Returns the Path that the planet uses to orbit the Sun. The Path is
+      * defined in the constructor
+      *
+      * @return path for the given planet
+      */
+    Path getOrbitalPath() {
         return orbitalPath;
     }
 

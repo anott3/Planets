@@ -8,6 +8,7 @@ import java.util.ArrayDeque;
 import java.util.stream.Collectors;
 import java.util.Collection;
 import java.util.EnumSet;
+
 /**
   * Class representation of Planetarium that shows planets in orbit
   *
@@ -30,15 +31,37 @@ public class Planetarium extends Application {
 
         Group root = new Group();
 
+        //this nested for loop adds the stars to the application
+        for (int x = 0, limit = 0; x < SCENE_WIDTH; x++) {
+            for (int y = 0; y < SCENE_HEIGHT; y++) {
+                if ((limit <= 0) && (Math.random() < 0.018)) {
+                    root.getChildren().add(new Circle(x, y, 1, new Color(
+                        Math.random(), Math.random(), Math.random(), 1.0)));
+                    limit = 174;
+                } else {
+                    limit--;
+                }
+            }
+        }
+
         root.getChildren().addAll(planets.stream().map(
             (c) -> c.getOrbitalPath()).collect(Collectors.toList()));
         root.getChildren().addAll(planets.stream().map(
             (c) -> c.getCircle()).collect(Collectors.toList()));
 
+
         planets.stream().map((c) -> (
             c.animateOrbitalPath())).collect(Collectors.toList());
 
-        root.getChildren(e).add(getSun());
+        root.getChildren().add(getSun());
+
+        // // Uncomment this if you want to add a smiley face to the sun :D
+        // root.getChildren().add(new Circle(getSun().getCenterX() - 30,
+        //     getSun().getCenterY() - 20, 5, Color.BLACK));
+        // root.getChildren().add(new Circle(getSun().getCenterX() + 30,
+        //     getSun().getCenterY() - 20, 5, Color.BLACK));
+        // root.getChildren().add(new Arc(getSun().getCenterX(),
+        //     getSun().getCenterY() + 10, 30, 30, 180, 180));
 
         Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT, Color.BLACK);
         stage.setScene(scene);
@@ -53,7 +76,7 @@ public class Planetarium extends Application {
       */
     public static final Circle getSun() {
         return new Circle(SCENE_WIDTH / 2.0, SCENE_HEIGHT / 2.0, 65.0,
-            Color.YELLOW);
+            Color.GOLD);
     }
 
     /**
